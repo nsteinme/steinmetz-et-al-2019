@@ -201,6 +201,78 @@ if nargin>0
             groups(g).name = 'midbrain';
             groups(g).acr = {'MRN', 'SCm', 'SNr', 'ZI'};
             groups(g).color = hsv2rgb(0, 0.6, 0.6);
+            
+        case 'byStructure'
+            clear groups
+            g = 0; coIdxStart = 3; 
+
+            n = 7; %co = copper(n+2); 
+            co = myCopper(0.1, n+coIdxStart-1);%
+            coIdx = 8;
+            g = g+1; groups(g).acr = {'ACA'}; groups(g).color = co(coIdx,:); %coIdx = coIdx+1;
+            g = g+1; groups(g).acr = {'MOs'}; groups(g).color = co(coIdx,:); %coIdx = coIdx+1;
+            g = g+1; groups(g).acr = {'PL'}; groups(g).color = co(coIdx,:); %coIdx = coIdx+1;
+            g = g+1; groups(g).acr = {'ILA'}; groups(g).color = co(coIdx,:);% coIdx = coIdx+1;
+            g = g+1; groups(g).acr = {'ORB'}; groups(g).color = co(coIdx,:);% coIdx = coIdx+1;
+            g = g+1; groups(g).acr = {'MOp'}; groups(g).color = co(coIdx,:); %coIdx = coIdx+1;
+            g = g+1; groups(g).acr = {'SSp'}; groups(g).color = co(coIdx,:); %coIdx = coIdx+1;
+
+            n = 5; %co = copper(n+2);  co = co(:,[2 3 1]);
+            co = myCopper(0.72, n+coIdxStart-1);
+            coIdx = 6;
+            g = g+1; groups(g).acr = {'CP'}; groups(g).color = co(coIdx,:); %coIdx = coIdx+1;
+            g = g+1; groups(g).acr = {'GPe'}; groups(g).color = co(coIdx,:);% coIdx = coIdx+1;
+            g = g+1; groups(g).acr = {'SNr'}; groups(g).color = co(coIdx,:); %coIdx = coIdx+1;
+            g = g+1; groups(g).acr = {'ACB'}; groups(g).color = co(coIdx,:);% coIdx = coIdx+1;
+            g = g+1; groups(g).acr = {'LS'}; groups(g).color = co(coIdx,:); %coIdx = coIdx+1;
+
+            n = 5; %co = copper(n+2);  co = co(:,[2 1 3]); 
+            co = myCopper(0, n+coIdxStart-1);
+            coIdx = 6;
+            g = g+1; groups(g).acr = {'SCs'}; groups(g).color = co(coIdx,:); %coIdx = coIdx+1;
+            g = g+1; groups(g).acr = {'SCm'}; groups(g).color = co(coIdx,:); %coIdx = coIdx+1;
+            g = g+1; groups(g).acr = {'MRN'}; groups(g).color = co(coIdx,:); %coIdx = coIdx+1;
+            g = g+1; groups(g).acr = {'APN'}; groups(g).color = co(coIdx,:); %coIdx = coIdx+1;
+            g = g+1; groups(g).acr = {'PAG'}; groups(g).color = co(coIdx,:); %coIdx = coIdx+1;
+            g = g+1; groups(g).acr = {'ZI'}; groups(g).color = co(coIdx,:); %coIdx = coIdx+1;
+            
+            n = 6; %co = copper(n+2);co = co(:,[3 2 1]); 
+            co = myCopper(0.6, n+coIdxStart-1);  %
+            coIdx = 7;
+            g = g+1; groups(g).acr = {'VISp'}; groups(g).color = co(coIdx,:); %coIdx = coIdx+1;
+            g = g+1; groups(g).acr = {'VISl'}; groups(g).color = co(coIdx,:); %coIdx = coIdx+1;
+            g = g+1; groups(g).acr = {'VISpm'}; groups(g).color = co(coIdx,:);% coIdx = coIdx+1;
+            g = g+1; groups(g).acr = {'VISam'}; groups(g).color = co(coIdx,:);% coIdx = coIdx+1;
+            g = g+1; groups(g).acr = {'VISrl'}; groups(g).color = co(coIdx,:);% coIdx = coIdx+1;
+            g = g+1; groups(g).acr = {'VISa'}; groups(g).color = co(coIdx,:); %coIdx = coIdx+1;
+
+            n = 10; %co = copper(n+2);  co = co(:,[3 1 2]); coIdx = coIdxStart;
+            co = myCopper(0.3, n+coIdxStart-1);  %
+            coIdx = 8;
+            g = g+1; groups(g).acr = {'LGd'}; groups(g).color = co(coIdx,:); 
+            g = g+1; groups(g).acr = {'LP'}; groups(g).color = co(coIdx,:); %coIdx = coIdx+1;
+            g = g+1; groups(g).acr = {'LD'}; groups(g).color = co(coIdx,:); %coIdx = coIdx+1;
+            g = g+1; groups(g).acr = {'POL'}; groups(g).color = co(coIdx,:); %coIdx = coIdx+1;
+            g = g+1; groups(g).acr = {'MD'}; groups(g).color = co(coIdx,:); %coIdx = coIdx+1;
+            g = g+1; groups(g).acr = {'VPL'}; groups(g).color = co(coIdx,:);% coIdx = coIdx+1;
+            g = g+1; groups(g).acr = {'PO'}; groups(g).color = co(coIdx,:); %coIdx = coIdx+1;
+            g = g+1; groups(g).acr = {'VPM'}; groups(g).color = co(coIdx,:);% coIdx = coIdx+1;
+            g = g+1; groups(g).acr = {'RT'}; groups(g).color = co(coIdx,:); %coIdx = coIdx+1;
+            g = g+1; groups(g).acr = {'MG'}; groups(g).color = co(coIdx,:); %coIdx = coIdx+1;
+
+            n = 5; %co = copper(n+2);  co = co(:,[1 3 2]); coIdx = coIdxStart;
+            co = myCopper(0.89, n+coIdxStart-1);  %
+            coIdx = 6;
+            g = g+1; groups(g).acr = {'DG'}; groups(g).color = co(coIdx,:); %coIdx = coIdx+1;
+            g = g+1; groups(g).acr = {'CA3'}; groups(g).color = co(coIdx,:); %coIdx = coIdx+1;
+            g = g+1; groups(g).acr = {'CA1'}; groups(g).color = co(coIdx,:); %coIdx = coIdx+1;    
+            g = g+1; groups(g).acr = {'SUB'}; groups(g).color = co(coIdx,:); %coIdx = coIdx+1;
+            g = g+1; groups(g).acr = {'POST'}; groups(g).color = co(coIdx,:);% coIdx = coIdx+1;        
+
+            co = repmat(linspace(0, 1, 5)', 1, 3); coIdx = 3;
+            g = g+1; groups(g).acr = {'RSP'}; groups(g).color = co(coIdx,:); %coIdx = coIdx+1;            
+            g = g+1; groups(g).acr = {'OLF'}; groups(g).color = co(coIdx,:); %coIdx = coIdx+1;
+            g = g+1; groups(g).acr = {'BLA'}; groups(g).color = co(coIdx,:); %coIdx = coIdx+1;
         otherwise
             fprintf(1, 'unrecognized style %s\n', style); 
     end
