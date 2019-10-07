@@ -1,7 +1,7 @@
 
 
 
-function [km, binnedSpikes, inclU, inclTimes, trNum, cweA, cwtA, pvals, bslMeans] = ...
+function [km, binnedSpikes, inclU, inclTimes, trNum, cweA, cwtA, pvals, bslMeans, effectSizes] = ...
     kernelFitBasic(sp, cweA, cwtA, moveData)
 
 
@@ -126,21 +126,51 @@ rewRates = interp1(tN, binnedSpikes, rewTimes);
 rewRates = squeeze(mean(rewRates,2));
 
 % pick ones only that have significantly different bsl and trial rates
-pvals = nan(numel(inclU),4);
+pvals = nan(numel(inclU),6);
+effectSizes = nan(numel(inclU),6);
 for q = 1:numel(inclU)
     if inclU(q)
-        pvals(q,1) = signrank(trRates(:,q), bslRates(:,q)); 
-        pvals(q,2) = signrank(stimRates(:,q), bslRates(:,q)); 
-        pvals(q,3) = signrank(mvRates(:,q), bslRates(mTr,q));
-        pvals(q,4) = ranksum(mvRates(hasR(mTr),q), mvRates(hasL(mTr),q));
+        xx = trRates(:,q)-bslRates(:,q);
+        pvals(q,1) = signrank(xx); 
+        effectSizes(q,1) = sum(xx>0)-sum(xx<0);
+        
+        xx = stimRates(:,q)-bslRates(:,q);
+        pvals(q,2) = signrank(xx); 
+        effectSizes(q,2) = sum(xx>0)-sum(xx<0);
+        
+        xx = mvRates(:,q)-bslRates(mTr,q);
+        pvals(q,3) = signrank(xx);
+        effectSizes(q,3) = sum(xx>0)-sum(xx<0);
+        
+        [pvals(q,4),~,stat] = ranksum(mvRates(hasR(mTr),q), mvRates(hasL(mTr),q));
+        nullRank = sum(hasR(mTr))*(sum(hasR(mTr))+sum(hasL(mTr)))/2;
+        effectSizes(q,4) = stat.ranksum-nullRank; %positive value means that hasR is greater
         
         % these two aren't used for selecting neurons for subsequent
         % analysis, but are used for reporting what's responsive to
         % something
-        pvals(q,5) = signrank(periMvRates(:,q), bslRates(mTr,q));
-        pvals(q,6) = ranksum(rewRates(:,q), bslRates(:,q));
+        xx = periMvRates(:,q)-bslRates(mTr,q);
+        pvals(q,5) = signrank(xx);
+        effectSizes(q,5) = sum(xx>0)-sum(xx<0); %% positive value means periMvRates is greater
         
-        if all(pvals(q,1:4)>0.05)
+        [pvals(q,6),~,stat] = ranksum(rewRates(:,q), bslRates(:,q));
+        nullRank = numel(rewRates(:,q))*(numel(rewRates(:,q))+numel(bslRates(:,q)))/2;
+        effectSizes(q,6) = stat.ranksum-nullRank;
+        
+        if all(pvals(q,1:4)>0.05) % this is a BUG!
+            % the pval will be 'nan' from ranksum if all entries are zero
+            % in both sets to be compared. This is because the test starts
+            % by dropping all zeros. But really, it is stupid because it
+            % ought to return p=1 - clearly the distributions are not
+            % different in that case. So, this command is false when one of
+            % the values is NaN, and the neuron is kept for inclusion.
+            % HOWEVER, if this was the only reason it was failing, then it
+            % should have passed since the 'real' pvalue is 1, and it
+            % should have been excluded. It seems this happened for ~1000
+            % neurons over the whole dataset. But, it's too late to fix it
+            % today, and the penalty isn't high: it just means some
+            % non-responsive neurons were accidentally included. 
+            % The correction is to use "~any" rather than "all"... :/ 
             inclU(q) = false;
         end
             
