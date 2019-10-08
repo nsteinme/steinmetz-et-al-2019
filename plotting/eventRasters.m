@@ -56,20 +56,12 @@ anatData = struct();
 coords = s.channels.sitePositions(s.channels.probe==nProbe-1,:);
 anatData.coords = coords;
 
-
 temps = s.clusters.templateWaveforms(inclCID+1,:,:);
 tempIdx = s.clusters.templateWaveformChans(inclCID+1,:);
 wfs = zeros(numel(inclCID), size(coords,1), size(temps,2));
-for q = 1:size(wfs,1); wfs(q,tempIdx(q,:)+1,:) = squeeze(temps(inclCID(q)+1,:,:))'; end
+for q = 1:size(wfs,1); wfs(q,tempIdx(q,:)+1,:) = squeeze(temps(q,:,:))'; end
 anatData.wfLoc = max(wfs,[],3)-min(wfs,[],3); 
 anatData.waveforms = wfs;
-
-% this version of 'wfLoc' just has a 1 on the peak channel. to improve
-% later.
-% wfLoc = zeros(numel(inclCID), size(coords,1));
-% pkCh = s.clusters.peakChannel(s.clusters.probes==nProbe-1);
-% for q = 1:numel(pkCh); wfLoc(q,pkCh(q)) = 100; end
-% anatData.wfLoc = wfLoc;
 
 acr = s.channels.brainLocation.allen_ontology(s.channels.probe==nProbe-1,:);
 lowerBorder = 0; upperBorder = []; acronym = {acr(1,:)};
@@ -84,6 +76,10 @@ upperBorder(end+1) = max(coords(:,2));
 upperBorder = upperBorder'; lowerBorder = lowerBorder'; acronym = acronym';
 anatData.borders = table(upperBorder, lowerBorder, acronym);
 
-% anatData.waveforms = zeros(numel(inclCID), size(coords,1),10);
+pkCh = s.clusters.peakChannel(s.clusters.probes==nProbe-1);
+[~,ii] = sort(pkCh); 
+anatData.clusterIDs = inclCID(ii); 
+anatData.wfLoc = anatData.wfLoc(ii,:); 
+anatData.waveforms = anatData.waveforms(ii,:,:);
 
 f = evRastersGUI(st, clu, cweA, cwtA, moveData, lickTimes, anatData);
