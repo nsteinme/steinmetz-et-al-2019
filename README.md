@@ -13,3 +13,5 @@ This repository is a work-in-progress and will eventually contain well-documente
 
 ## Where to get the data
 Associated data files located at [doi:10.6084/m9.figshare.9598406](https://doi.org/10.6084/m9.figshare.9598406).
+
+![Rasters GUI](https://github.com/nsteinme/steinmetz-et-al-2019/raw/master/images/eventRasters.gif)
