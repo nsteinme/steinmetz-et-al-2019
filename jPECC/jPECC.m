@@ -1,14 +1,18 @@
 
 
-function [jPECC_val, jPECC_p] = jPECC(sp1, sp2, kfold, lambda)
+function [jPECC_val, jPECC_p] = jPECC(sp1, sp2, kfold, lambda, maxNpc)
 % function [jPECC_val, jPECC_p] = jPECC(sp1, sp2, kfold, lambda)
 %
 % Inputs: 
 % - sp1 and sp2 are size [trials, timebins, neurons] and contain spike counts
-% aligned to an event, from neurons in area 1 and area 2
+% aligned to an event, from neurons in area 1 and area 2. The third
+% dimension (number of neurons) can be different between sp1 and sp2, but
+% the other two should match. 
 % - kfold sets cross-validation number of folds
 % - lambda is a regularization parameter. Can leave it out and just use
 % three input arguments for un-regularized version. 
+% - maxNpc is the number of dimensions to keep from PCA analysis. Will keep
+% fewer if there aren't enough neurons in the population. Default is 10. 
 %
 % Outputs: 
 % - jPECC_val is size [timebins, timebins] containing the first canonical
@@ -17,6 +21,14 @@ function [jPECC_val, jPECC_p] = jPECC(sp1, sp2, kfold, lambda)
 
 doPCA = true; % if false, just use what you're given
 
+if nargin<5
+    maxNpc = 10; 
+end
+if nargin<4
+    lambda = [];     
+end
+
+
 nBins = size(sp1,2); 
 
 jPECC_val = zeros(nBins);
@@ -24,7 +36,7 @@ jPECC_p = zeros(nBins);
 
 N = size(sp1,1); %number of trials
 cvp = cvpartition(N, 'KFold', kfold);
-nd = min([10 size(sp1,3) size(sp2,3)]);
+nd = min([maxNpc size(sp1,3) size(sp2,3)]);
 % nd = min([size(sp1,3) size(sp2,3)]);
 for t1 = 1:nBins
     
