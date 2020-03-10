@@ -1,7 +1,8 @@
 function S = loadSession(sesPath)
 % function to load a session of the Steinmetz Neuropixels dataset
 % Author: Michael G. Moore, Michigan State University, 
-% Version:  V1 7/13/2019
+%  - Modified by NS 2020-03-09, with some dataset-specific enhancements
+% Version:  V2 2020-03-09
 
 % sesPath   is the directory name of the session, including any required 
 %           path information
@@ -60,5 +61,12 @@ for f = 1:length(fdir)
     S = setfield(S,fields{1:end},val);
    
 end
+
+
+% acronyms for each channel
+acrPerChannel = arrayfun(@(x)S.channels.brainLocation.allen_ontology(x,:), 1:size(S.channels.brainLocation.allen_ontology,1), 'uni', false); 
+acrPerChannel = cellfun(@(x)x(1:iff(any(x==' '), find(x==' ',1)-1, numel(x))), acrPerChannel, 'uni', false); 
+S.channels.acronym = acrPerChannel';
+
 
 end
