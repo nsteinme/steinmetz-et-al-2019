@@ -7,6 +7,11 @@ function [cp, p, cpSummary] = choiceProbShuf(spikeCounts, trialChoice, trialCond
 % length. 
 %
 % trialChoice should have entries that are only true and false 
+%
+% shufLabels is a cell array with one entry per condition that appears in trialCondition. 
+%   Each cell is a matrix size nx x nshuf, each column a random permutation of integers
+%   from 1:nx. First column of shufLabels should be exactly 1:nx. nx is the number of "true"
+%   choices for that condition, and nshuf is the number of shuffle controls desired (e.g. 1000)
 
 n = numel(spikeCounts);
 nShuf = size(shufLabels{1},2)-1;
