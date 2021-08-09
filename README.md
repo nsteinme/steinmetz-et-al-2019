@@ -2,7 +2,7 @@
 
 ## What is contained here
 
-This repository is a work-in-progress and will eventually contain well-documented code to reproduce all the figures, but currently contains data browsers and the core functions of the main novel analyses presented. 
+This contains data browsers and the core functions of the main novel analyses presented in [Steinmetz et al 2019](https://www.nature.com/articles/s41586-019-1787-x). 
 
 * [A GUI](https://github.com/nsteinme/steinmetz-et-al-2019/wiki/event-rasters) to conveniently browse the detailed responses of individual neurons. 
 * Reduced rank regression and kernel analysis methods
